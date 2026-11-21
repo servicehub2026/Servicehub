@@ -1,0 +1,721 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 15, 23, 42;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 248, 250, 252;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Keep transformed sliders and decorative artwork from widening the page. */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #ffffff;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+
+/* Hero: move image and copy as one unified slide layer */
+@keyframes heroSlideEnter {
+  from {
+    opacity: 1;
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+.hero-slide-enter {
+  animation: heroSlideEnter 980ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Seamless, continuously moving service-highlight strip */
+@keyframes serviceTickerMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.service-ticker-track {
+  animation: serviceTickerMove 38s linear infinite;
+}
+.service-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide-enter {
+    animation: none;
+  }
+  .service-ticker-track {
+    animation: none;
+  }
+}
+
+
+/* Service catalog: crisp square cards with a subtle, lightweight entrance */
+@keyframes serviceCardRise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+.service-popular-card,
+.service-category-card {
+  backface-visibility: hidden;
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    background-color 260ms ease;
+}
+.service-popular-card:hover,
+.service-category-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(15, 55, 110, 0.09);
+}
+.service-catalog-banner {
+  border-radius: 2px;
+  isolation: isolate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-popular-card,
+  .service-category-card {
+    animation: none !important;
+    transition: none;
+  }
+}
+
+.service-popular-card:nth-child(2),
+.service-category-card:nth-child(2) { animation-delay: 45ms; }
+.service-popular-card:nth-child(3),
+.service-category-card:nth-child(3) { animation-delay: 90ms; }
+.service-popular-card:nth-child(4),
+.service-category-card:nth-child(4) { animation-delay: 135ms; }
+.service-popular-card:nth-child(5),
+.service-category-card:nth-child(5) { animation-delay: 180ms; }
+.service-popular-card:nth-child(6) { animation-delay: 225ms; }
+.service-popular-card:nth-child(7) { animation-delay: 270ms; }
+.service-popular-card:nth-child(8) { animation-delay: 315ms; }
+.service-popular-card:nth-child(9) { animation-delay: 360ms; }
+.service-popular-card:nth-child(10) { animation-delay: 405ms; }
+@media (prefers-reduced-motion: reduce) {
+  .service-popular-card,
+  .service-category-card { animation-delay: 0ms !important; }
+}
+
+
+/* Full-bleed mobile service banner softly melts into the white catalog below. */
+.service-catalog-banner::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  left: -2%;
+  right: -2%;
+  bottom: -1px;
+  height: 42px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.16) 38%,
+    rgba(255, 255, 255, 0.62) 76%,
+    #ffffff 100%
+  );
+  filter: blur(7px);
+}
+.service-catalog-banner > .relative {
+  z-index: 1;
+}
+@media (min-width: 640px) {
+  .service-catalog-banner::after {
+    height: 54px;
+    filter: blur(9px);
+  }
+}
+
+
+/* Premium dark navy hover treatment for Support Product cards. */
+@keyframes serviceCardVibrate {
+  0%, 100% { transform: translate3d(0, -5px, 0) scale(1.025); }
+  20% { transform: translate3d(-1px, -5px, 0) scale(1.025); }
+  40% { transform: translate3d(1px, -5px, 0) scale(1.025); }
+  60% { transform: translate3d(-0.7px, -5px, 0) scale(1.025); }
+  80% { transform: translate3d(0.7px, -5px, 0) scale(1.025); }
+}
+.service-popular-card:hover,
+.service-popular-card:focus-visible {
+  color: #ffffff;
+  border-color: #082b63;
+  background: linear-gradient(140deg, #061b40 0%, #0b3474 58%, #0752a8 100%);
+  box-shadow: 0 14px 28px rgba(4, 26, 65, 0.24);
+  animation: serviceCardVibrate 380ms ease-out both;
+}
+.service-popular-card:hover .service-popular-icon,
+.service-popular-card:focus-visible .service-popular-icon {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24), 0 0 18px rgba(95, 177, 255, 0.2);
+  transform: scale(1.08);
+}
+.service-popular-card:hover .service-popular-label,
+.service-popular-card:focus-visible .service-popular-label,
+.service-popular-card:hover .service-popular-explore,
+.service-popular-card:focus-visible .service-popular-explore {
+  color: #ffffff;
+}
+.service-popular-card:active {
+  transform: translateY(-1px) scale(0.99);
+}
+@media (prefers-reduced-motion: reduce) {
+  .service-popular-card:hover,
+  .service-popular-card:focus-visible {
+    animation: none;
+  }
+}
+
+
+/* Why Choose Us: touch-friendly horizontal benefit slider */
+.why-choose-slider {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+.why-choose-slider::-webkit-scrollbar {
+  display: none;
+}
+
+
+@keyframes finderProgress {
+  0% { transform: scaleX(0.08); }
+  100% { transform: scaleX(1); }
+}
+
+
+/* Brand coverage slider: native touch scrolling with a clean, compact track. */
+.brand-coverage-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+.brand-coverage-track::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* Compact, seamless brand-name marquee */
+.brand-marquee-viewport {
+  contain: layout paint;
+}
+.brand-marquee-track {
+  width: max-content;
+  animation: brand-marquee-scroll 52s linear infinite;
+  will-change: transform;
+}
+.brand-marquee-viewport:hover .brand-marquee-track {
+  animation-play-state: paused;
+}
+.brand-logo-tile {
+  box-sizing: border-box;
+}
+.brand-wordmark {
+  display: inline-block;
+  color: #f8fbff;
+  font-size: clamp(13px, 1.35vw, 19px);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+}
+.brand-samsung { letter-spacing: -0.07em; }
+.brand-bosch { letter-spacing: 0.035em; }
+.brand-whirlpool { font-style: italic; }
+.brand-panasonic { letter-spacing: -0.055em; }
+.brand-marquee-viewport:focus-within .brand-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee-track { animation: none; }
+  .brand-marquee-viewport { overflow-x: auto; }
+}
+@keyframes brand-marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+
+
+/* Find Your Brand CTA pulse and red product-field attention highlight. */
+.brand-find-button { animation: brandFindPulse 2.8s ease-in-out infinite; }
+.product-selector-highlight { animation: productSelectorWarning 0.7s ease-in-out 3; scroll-margin-top: 110px; }
+@keyframes brandFindPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(96,165,250,0); transform: translateY(0); }
+  50% { box-shadow: 0 0 0 5px rgba(96,165,250,.18); transform: translateY(-1px); }
+}
+@keyframes productSelectorWarning {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,.08); }
+  50% { box-shadow: 0 0 0 7px rgba(220,38,38,.24); }
+}
+@media (prefers-reduced-motion: reduce) { .brand-find-button, .product-selector-highlight { animation: none; } }
+
+
+/* Service Support Hub footer styles (global to avoid client hydration text mismatch) */
+
+
+        .ssh-footer {
+          width: 100%;
+          background: #1c3358 !important;
+          color: #fff !important;
+          font-family: Arial, Helvetica, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+
+        .ssh-footer * {
+          box-sizing: border-box;
+        }
+
+        .ssh-wrap {
+          max-width: 1276px;
+          width: 100%;
+          margin: auto;
+          padding: 36px 0 38px;
+        }
+
+        .ssh-grid {
+          display: grid;
+          grid-template-columns: 1.15fr 1.05fr 1.05fr 1.1fr;
+          gap: 42px;
+          align-items: start;
+        }
+
+        /* BRAND */
+
+        .ssh-logo {
+          display: inline-block;
+          color: #fff !important;
+          font-size: 29px;
+          font-weight: 800;
+          letter-spacing: -1.3px;
+          line-height: 1.1;
+          text-decoration: none !important;
+          white-space: nowrap;
+        }
+
+        .ssh-logo span {
+          color: #83c9d5;
+        }
+
+        .ssh-subtitle {
+          display: block;
+          color: #c6d3e5;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 1.2px;
+          margin: 6px 0 24px;
+        }
+
+        .ssh-brand p,
+        .ssh-connect p {
+          color: #f0f3f9 !important;
+          font-size: 13px;
+          line-height: 1.7;
+          margin: 0 0 12px;
+        }
+
+        .ssh-brand strong,
+        .ssh-connect strong {
+          display: block;
+          color: #fff;
+          font-size: 13px;
+          margin-bottom: 3px;
+        }
+
+        /* CONNECT */
+
+        .ssh-connect h3,
+        .ssh-request h3 {
+          color: #fff !important;
+          font-size: 16px;
+          font-weight: 700;
+          margin: 0 0 16px;
+        }
+
+        .ssh-connect a {
+          display: block;
+          color: #fff !important;
+          font-size: 13px;
+          text-decoration: none !important;
+          margin-top: 3px;
+          overflow-wrap: anywhere;
+        }
+
+        .ssh-connect a:hover {
+          color: #83c9d5 !important;
+        }
+
+        /* DROPDOWNS */
+
+        .ssh-menus {
+          width: 100%;
+          background: transparent !important;
+          border: 0 !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+        }
+
+        .ssh-footer .ssh-dropdown {
+          display: block !important;
+          width: 100%;
+          margin: 0 !important;
+          padding: 0 !important;
+          background: transparent !important;
+          border: 0 !important;
+          border-bottom: 1px solid rgba(255,255,255,.16) !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+        }
+
+        .ssh-footer .ssh-dropdown summary {
+          display: block !important;
+          position: relative;
+          width: 100%;
+          padding: 13px 30px 13px 0 !important;
+          margin: 0 !important;
+          color: #fff !important;
+          background: transparent !important;
+          border: 0 !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+          font-size: 15px;
+          font-weight: 700;
+          line-height: 1.4;
+          cursor: pointer;
+          list-style: none !important;
+          user-select: none;
+        }
+
+        .ssh-footer .ssh-dropdown summary::-webkit-details-marker {
+          display: none;
+        }
+
+        .ssh-footer .ssh-dropdown summary::marker {
+          content: "";
+        }
+
+        .ssh-footer .ssh-dropdown summary::after {
+          content: "+";
+          position: absolute;
+          right: 5px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #fff;
+          font-size: 22px;
+          font-weight: 700;
+        }
+
+        .ssh-footer .ssh-dropdown[open] summary::after {
+          content: "−";
+        }
+
+        .ssh-dropdown-content {
+          display: none;
+          flex-direction: column;
+          gap: 10px;
+          padding: 3px 0 15px !important;
+          background: transparent !important;
+          border: 0 !important;
+          box-shadow: none !important;
+        }
+
+        .ssh-footer .ssh-dropdown[open] > .ssh-dropdown-content {
+          display: flex;
+          animation: sshOpen .2s ease;
+        }
+
+        .ssh-dropdown-content a {
+          color: #d5dfed !important;
+          background: transparent !important;
+          font-size: 13px;
+          line-height: 1.5;
+          text-decoration: none !important;
+          padding: 0 !important;
+          border: 0 !important;
+        }
+
+        .ssh-dropdown-content a:hover {
+          color: #fff !important;
+          padding-left: 4px !important;
+        }
+
+        @keyframes sshOpen {
+          from {
+            opacity: 0;
+            transform: translateY(-5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* REQUEST FORM */
+
+        .ssh-request {
+          width: 100%;
+          min-width: 0;
+          background: transparent !important;
+          padding: 0 !important;
+          border: 0 !important;
+          box-shadow: none !important;
+        }
+
+        .ssh-request p {
+          color: #e0e8f3 !important;
+          font-size: 12px;
+          line-height: 1.55;
+          margin: -7px 0 12px;
+        }
+
+        .ssh-form {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          background: transparent !important;
+          border: 0 !important;
+          box-shadow: none !important;
+        }
+
+        .ssh-form-grid {
+          display: grid;
+          grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+          gap: 9px;
+        }
+
+        .ssh-footer .ssh-form input,
+        .ssh-footer .ssh-form select,
+        .ssh-footer .ssh-form textarea {
+          display: block;
+          width: 100%;
+          min-width: 0;
+          height: 38px;
+          padding: 0 11px;
+          margin: 0;
+          border: 1px solid #dce2eb !important;
+          border-radius: 3px !important;
+          background: #fff !important;
+          color: #27364c !important;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 12px;
+          outline: none;
+          box-shadow: none !important;
+        }
+
+        .ssh-footer .ssh-form select {
+          cursor: pointer;
+        }
+
+        .ssh-footer .ssh-form textarea {
+          height: 54px;
+          padding: 10px 11px;
+          margin-top: 9px;
+          resize: vertical;
+        }
+
+        .ssh-footer .ssh-form input:focus,
+        .ssh-footer .ssh-form select:focus,
+        .ssh-footer .ssh-form textarea:focus {
+          border-color: #83c6dc !important;
+        }
+
+        .ssh-footer .ssh-form button {
+          display: block;
+          width: 100%;
+          height: 43px;
+          margin-top: 9px;
+          padding: 0;
+          border: 0 !important;
+          border-radius: 3px !important;
+          background: #edf2f7 !important;
+          color: #1c3a66 !important;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          box-shadow: none !important;
+        }
+
+        .ssh-footer .ssh-form button:hover {
+          background: #fff !important;
+        }
+
+        /* COPYRIGHT */
+
+        .ssh-copyright {
+          width: 100%;
+          min-height: 46px;
+          background: #f4f5f7 !important;
+          color: #555 !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 12px 15px;
+          text-align: center;
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        /* TABLET */
+
+        @media (max-width: 1050px) {
+          .ssh-wrap {
+            padding: 35px 25px;
+          }
+
+          .ssh-grid {
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 35px;
+          }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+          .ssh-wrap {
+            padding: 30px 20px;
+          }
+
+          .ssh-grid {
+            grid-template-columns: 1fr;
+            gap: 28px;
+          }
+
+          .ssh-logo {
+            font-size: 27px;
+          }
+
+          .ssh-subtitle {
+            margin-bottom: 17px;
+          }
+
+          .ssh-footer .ssh-dropdown summary {
+            padding: 14px 30px 14px 0 !important;
+          }
+
+          .ssh-footer .ssh-form input,
+          .ssh-footer .ssh-form select {
+            height: 42px;
+          }
+
+          .ssh-footer .ssh-form textarea {
+            height: 65px;
+          }
+
+          .ssh-copyright {
+            min-height: 45px;
+            font-size: 11px;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .ssh-form-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+      
+
+
+/* One-second city transition indicator */
+.ssh-city-loader {
+  position: relative;
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+}
+.ssh-city-loader-triangle {
+  position: absolute;
+  inset: 3px;
+  border: 2px solid rgba(96, 165, 250, .35);
+  border-top-color: #60a5fa;
+  border-right-color: #38bdf8;
+  border-radius: 12px;
+  transform: rotate(45deg);
+  animation: ssh-city-spin .85s linear infinite;
+}
+.ssh-city-loader-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #93c5fd;
+  box-shadow: 0 0 20px rgba(56, 189, 248, .9);
+  animation: ssh-city-pulse .7s ease-in-out infinite alternate;
+}
+@keyframes ssh-city-spin {
+  to { transform: rotate(405deg); }
+}
+@keyframes ssh-city-pulse {
+  from { transform: scale(.72); opacity: .65; }
+  to { transform: scale(1.12); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ssh-city-loader-triangle, .ssh-city-loader-dot { animation: none; }
+}
+
+
+/* Animated touch cue for the side-by-side issue guide action */
+@keyframes issueFingerTap {
+  0%, 100% { transform: translateY(0) scale(1); }
+  18% { transform: translateY(-4px) scale(1.08); }
+  35% { transform: translateY(1px) scale(.92); }
+  48% { transform: translateY(-1px) scale(1); }
+}
+@keyframes issueTapRipple {
+  0%, 34%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+  42% { box-shadow: 0 0 0 4px rgba(37,99,235,.18); }
+  58% { box-shadow: 0 0 0 7px rgba(37,99,235,0); }
+}
+.issue-touch-animation {
+  transform-origin: 55% 80%;
+  animation: issueFingerTap 1.65s ease-in-out infinite, issueTapRipple 1.65s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .issue-touch-animation { animation: none; }
+}

@@ -1,0 +1,23 @@
+SERVICE SUPPORT HUB — HTML-FIRST SEO NOTE
+
+The current project uses the Next.js App Router.
+
+Important:
+- A React component marked "use client" is NOT automatically client-only rendered.
+- Next.js pre-renders Client Components to HTML on the server for the initial page response by default.
+- The existing page text, headings, FAQ markup, pricing markup, and service descriptions are rendered from their initial JSX state.
+- Client-side JavaScript is retained for interactive behavior such as sliders, navigation, booking popups, and dropdowns.
+- No `dynamic(..., { ssr: false })` / `ssr: false` bypass was found in the source audit.
+
+No visual design, copy, URLs, route structure, or interactive behavior was changed for this HTML-first audit package.
+
+How to verify:
+1. Run `npm install` and `npm run build`.
+2. Run `npm run start`.
+3. Open a page in the browser.
+4. Use View Page Source (Ctrl+U), not only Inspect Element.
+5. Search for the page's H1, a paragraph, an FAQ question, and a pricing row.
+6. Also use Google Search Console URL Inspection to verify Google's rendered HTML.
+
+Note:
+This source-level audit is not a substitute for a production build or a live HTTP response test.

@@ -1,0 +1,22 @@
+# Service Support Hub - static export on Apache/cPanel (LiteSpeed compatible)
+
+# Clean URLs: /cities/noida -> cities/noida.html
+# Directory listings and automatic "add trailing slash" redirects are turned off,
+# so a folder with the same name never causes a 403.
+Options -MultiViews -Indexes
+DirectorySlash Off
+ErrorDocument 404 /404.html
+
+RewriteEngine On
+
+# 1) Single canonical host: servicesupporthub.in -> https://www.servicesupporthub.in
+RewriteCond %{HTTP_HOST} ^servicesupporthub\.in$ [NC]
+RewriteRule ^(.*)$ https://www.servicesupporthub.in/$1 [R=301,L]
+
+# 2) Remove trailing slash (/cities/noida/ -> /cities/noida), but only for non-files
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# 3) Serve the matching .html page for a clean URL (works even if a folder has the same name)
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]

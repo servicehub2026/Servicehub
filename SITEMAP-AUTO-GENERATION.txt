@@ -1,0 +1,35 @@
+SERVICE SUPPORT HUB — STATIC EXPORT + AUTOMATIC SITEMAP
+
+What happens when you run `npm run build`:
+1. `next build` creates the static HTML export in `out/` (output: export).
+2. npm automatically runs the `postbuild` lifecycle script.
+3. `node scripts/generate-sitemap.mjs` scans the actual exported `.html` files in `out/`.
+4. It excludes the 404 page, deduplicates URLs, and creates sitemap XML files.
+5. If there are more than 5,000 URLs, it creates sitemap-0.xml, sitemap-1.xml, etc. and an index at out/sitemap.xml.
+
+Expected output for the current configured site is approximately 8,800+ URLs. The exact number is based on HTML files actually emitted by Next.js, not a hard-coded estimate.
+
+Files:
+- scripts/generate-sitemap.mjs: dependency-free postbuild sitemap generator
+- public/robots.txt: advertises https://www.servicesupporthub.in/sitemap.xml
+- src/app/sitemap.ts: removed to avoid a second sitemap route conflicting with the generated XML file
+
+Run from the `site` project folder:
+  npm ci
+  npm run build
+
+After a successful build:
+  out/sitemap.xml
+  out/sitemap-0.xml (when the site has more than 5,000 URLs)
+  out/sitemap-1.xml (when needed)
+  out/robots.txt
+
+Upload the CONTENTS of `out/` to the website document root. Do not upload the source project in place of the exported files.
+
+Validation performed on this package:
+- Node syntax check for the sitemap generator: passed.
+- Generator fixture test with 5,003 HTML pages: passed; created a sitemap index and two valid child sitemaps, with all 5,003 URLs accounted for.
+- XML parsing and robots sitemap reference check: passed.
+- Full Next.js production build: not run in this environment; run `npm run build` locally to verify against installed project dependencies.
+
+No page content, design, CSS, UI components, or route-generation source was changed.
